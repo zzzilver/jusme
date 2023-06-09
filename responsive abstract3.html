@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Shapes Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: repeating-linear-gradient(-45deg, darkgreen, darkgreen 10px, #000 10px, #000 20px);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .shape {
+      position: absolute;
+      background-color: white;
+    }
+    
+    .line {
+      width: 10vw;
+      height: 0.2vw;
+      background-color: black;
+    }
+
+    .arrow {
+      width: 5vw;
+      height: 0.2vw;
+      background-color: black;
+    }
+
+    .arrow::before {
+      content: '';
+      position: absolute;
+      top: -0.5vw;
+      left: -1.5vw;
+      border-top: 0.5vw solid transparent;
+      border-right: 1.5vw solid black;
+      border-bottom: 0.5vw solid transparent;
+    }
+
+    .box {
+      width: 10vw;
+      height: 10vw;
+      border: 0.2vw solid limegreen;
+      background-color: transparent;
+      color: limegreen;
+    }
+    
+    button {
+      margin-top: auto;
+      padding: 1vw 3vw;
+      font-size: 1.6vw;
+      background-color: transparent;
+      color: limegreen;
+      border: 0.6vw solid limegreen;
+      border-radius: 0vw;
+      position: absolute;
+      z-index: 9999;
+      cursor: pointer;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @media screen and (max-width: 768px) {
+      /* Adjust styles for smaller screens */
+      .line {
+        width: 30vw;
+        height: 0.4vw;
+      }
+
+      .arrow {
+        width: 15vw;
+        height: 0.4vw;
+      }
+
+      .arrow::before {
+        top: -1vw;
+        left: -3vw;
+        border-top: 1vw solid transparent;
+        border-right: 3vw solid black;
+        border-bottom: 1vw solid transparent;
+      }
+
+      .box {
+        width: 30vw;
+        height: 30vw;
+        border: 0.4vw solid limegreen;
+      }
+
+      button {
+        padding: 2.2vw 4vw;
+        font-size: 2.4vw;
+        border: 0.4vw solid limegreen;
+        border-radius: 0.8vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="shapesContainer"></div>
+  <button onclick="rearrangeShapes()">Rearrange</button>
+
+  <script>
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    function rearrangeShapes() {
+      var shapesContainer = document.getElementById('shapesContainer');
+      shapesContainer.innerHTML = '';
+
+      var shapes = ['line', 'line', 'arrow', 'arrow', 'box'];
+      var totalShapes = 200;
+      var lineCount = 0;
+      var arrowCount = 0;
+      var boxCount = 0;
+
+      for (var i = 0; i < totalShapes; i++) {
+        var randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+        var shapeElement = document.createElement('div');
+        shapeElement.classList.add('shape');
+        shapeElement.classList.add(randomShape);
+
+        var size = getRandomInt(5, 15) + 'vw'; // Random size between 5vw and 15vw
+
+        if (randomShape === 'line') {
+          shapeElement.style.width = size;
+          shapeElement.style.height = '0.2vw';
+          lineCount++;
+        } else if (randomShape === 'arrow') {
+          shapeElement.style.width = size;
+          shapeElement.style.height = '0.2vw';
+          arrowCount++;
+        } else if (randomShape === 'box') {
+          shapeElement.style.width = size;
+          shapeElement.style.height = size;
+          shapeElement.style.borderRadius = '0.4vw';
+          boxCount++;
+        }
+
+        shapeElement.style.position = 'absolute';
+        shapeElement.style.left = Math.random() * (window.innerWidth - parseInt(size)) + 'px'; // Random X position
+        shapeElement.style.top = Math.random() * (window.innerHeight - parseInt(size)) + 'px'; // Random Y position
+        shapeElement.style.transform = 'rotate(' + getRandomInt(0, 360) + 'deg)'; // Random rotation
+
+        document.body.appendChild(shapeElement);
+      }
+
+      var button = document.getElementById('rearrangeButton');
+      button.style.position = 'absolute';
+      button.style.left = Math.random() * (window.innerWidth - button.offsetWidth) + 'px';
+      button.style.top = Math.random() * (window.innerHeight - button.offsetHeight) + 'px';
+
+      console.log('Total Lines:', lineCount);
+      console.log('Total Arrows:', arrowCount);
+      console.log('Total Boxes:', boxCount);
+    }
+  </script>
+</body>
+</html>
